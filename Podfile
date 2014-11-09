@@ -7,6 +7,8 @@ target "motionapp" do
 
 pod 'Parse'
 pod 'CWStatusBarNotification'
+pod 'SCRecorder'
+pod 'FLAnimatedImage'
 
 end
 
