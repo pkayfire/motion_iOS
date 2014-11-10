@@ -31,6 +31,10 @@
     UIColor *motionRed = [UIColor colorWithRed:245.0/255.0f green:110.0/255.0f blue:94.0/255.0f alpha:1.0f];
     UIColor *motionRedLight = [UIColor colorWithRed:248.0/255.0f green:155.0/255.0f blue:144.0/255.0f alpha:1.0f];
     
+    
+    [self.reverseCameraButton setImage:[UIImage imageNamed:@"switch_camera_button_highlighted"] forState:UIControlStateHighlighted | UIControlStateSelected];
+    [self.reverseCameraButton addTarget:self action:@selector(handleReverseCameraTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
     _recorder = [SCRecorder recorder];
     _recorder.sessionPreset = AVCaptureSessionPreset1280x720;
     _recorder.audioEnabled = YES;
@@ -82,6 +86,8 @@
     //[_recorder focusCenter];
 }
 
+#pragma mark - SCRecorder Methods
+
 - (void) prepareCamera {
     if (_recorder.recordSession == nil) {
         
@@ -92,19 +98,14 @@
     }
 }
 
+- (void) handleReverseCameraTapped:(id)sender {
+    [_recorder switchCaptureDevices];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

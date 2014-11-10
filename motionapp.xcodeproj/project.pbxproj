@@ -26,6 +26,7 @@
 		66837A801A1044A500006BF6 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66837A7F1A1044A500006BF6 /* CoreVideo.framework */; };
 		66837A821A1044AB00006BF6 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66837A811A1044AB00006BF6 /* GLKit.framework */; };
 		66837A841A1044B300006BF6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66837A831A1044B300006BF6 /* AudioToolbox.framework */; };
+		66837A881A1056AD00006BF6 /* MNUIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 66837A871A1056AD00006BF6 /* MNUIButton.m */; };
 		DE9ACE8001AF37E90C1E2F2A /* libPods-motionapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC9BD34D259745AF2D239ABC /* libPods-motionapp.a */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,8 @@
 		66837A7F1A1044A500006BF6 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		66837A811A1044AB00006BF6 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		66837A831A1044B300006BF6 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		66837A861A1056AD00006BF6 /* MNUIButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNUIButton.h; sourceTree = "<group>"; };
+		66837A871A1056AD00006BF6 /* MNUIButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNUIButton.m; sourceTree = "<group>"; };
 		B4F0439C7F91E0B690D9F3AB /* Pods-motionapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-motionapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-motionapp/Pods-motionapp.release.xcconfig"; sourceTree = "<group>"; };
 		BC9BD34D259745AF2D239ABC /* libPods-motionapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-motionapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -122,6 +125,7 @@
 		663FE99D1A0EDDB80036A1AD /* motionapp */ = {
 			isa = PBXGroup;
 			children = (
+				66837A851A10569700006BF6 /* ViewObjects */,
 				66837A6F1A103ADC00006BF6 /* ViewControllers */,
 				66837A6E1A103AD000006BF6 /* Models */,
 				663FE9A21A0EDDB80036A1AD /* AppDelegate.h */,
@@ -192,6 +196,15 @@
 				66837A7D1A103EC000006BF6 /* MNCaptureViewController.m */,
 			);
 			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		66837A851A10569700006BF6 /* ViewObjects */ = {
+			isa = PBXGroup;
+			children = (
+				66837A861A1056AD00006BF6 /* MNUIButton.h */,
+				66837A871A1056AD00006BF6 /* MNUIButton.m */,
+			);
+			name = ViewObjects;
 			sourceTree = "<group>";
 		};
 		988CA4D485E866538337E2BE /* Frameworks */ = {
@@ -358,6 +371,7 @@
 				663FE9A41A0EDDB80036A1AD /* AppDelegate.m in Sources */,
 				663FE9AA1A0EDDB80036A1AD /* MNOpeningViewController.m in Sources */,
 				663FE9A11A0EDDB80036A1AD /* main.m in Sources */,
+				66837A881A1056AD00006BF6 /* MNUIButton.m in Sources */,
 				66837A7B1A103C2400006BF6 /* MNVideo.m in Sources */,
 				66837A781A103C1300006BF6 /* MNUser.m in Sources */,
 				66837A7E1A103EC000006BF6 /* MNCaptureViewController.m in Sources */,

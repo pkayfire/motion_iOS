@@ -11,14 +11,9 @@
 
 @interface MNCaptureViewController : UIViewController<SCRecorderDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView *recordView;
-@property (weak, nonatomic) IBOutlet UIButton *stopButton;
 @property (weak, nonatomic) IBOutlet UIView *previewView;
-@property (weak, nonatomic) IBOutlet UIView *loadingView;
-@property (weak, nonatomic) IBOutlet UILabel *timeRecordedLabel;
-@property (weak, nonatomic) IBOutlet UIView *downBar;
-@property (weak, nonatomic) IBOutlet UIButton *switchCameraModeButton;
 
-- (IBAction)switchCameraMode:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *reverseCameraButton;
+@property (weak, nonatomic) IBOutlet UIButton *exitButton;
 
 @end
