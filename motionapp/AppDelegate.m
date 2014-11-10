@@ -8,7 +8,16 @@
 
 #import "AppDelegate.h"
 
-@interface AppDelegate ()
+#import "MNOpeningViewController.h"
+#import "MNCaptureViewController.h"
+
+#import "MNUser.h"
+
+@interface AppDelegate () {
+    MNUser *_currentUser;
+    MNCaptureViewController *_captureVC;
+    MNOpeningViewController *_openingVC;
+}
 
 @end
 
@@ -18,8 +27,25 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    UIColor *motionRed = [UIColor colorWithRed:245.0/255.0f green:110.0/255.0f blue:94.0/255.0f alpha:1.0f];
+    // Initialize Parse
+    [Parse setApplicationId:@"ajiqKe7EQhmLGaIfRMMOFzAFiJg0HrpXHkPJL4OU"
+                  clientKey:@"RjX5rpOgHnQoad3s7bmvKxlyWdiAvMuqWSJic2if"];
     
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    _captureVC = [sb instantiateViewControllerWithIdentifier:@"MNCaptureViewController"];
+    self.window.rootViewController = _captureVC;
+    [self.window makeKeyAndVisible];
+    
+    _currentUser = [MNUser currentUser];
+    
+    if (!_currentUser) {
+        _openingVC = [sb instantiateViewControllerWithIdentifier:@"MNOpeningViewController"];
+        [_captureVC presentViewController:_openingVC animated:NO completion:nil];
+    } else {
+        
+    }
+    
+    UIColor *motionRed = [UIColor colorWithRed:245.0/255.0f green:110.0/255.0f blue:94.0/255.0f alpha:1.0f];
     [[UIButton appearance] setTitleColor:motionRed forState:UIControlStateHighlighted];
     
 //    NSArray *familyNames = [[NSArray alloc] initWithArray:[UIFont familyNames]];

@@ -7,7 +7,7 @@
         <!--Opening View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="MNOpeningViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MNOpeningViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vXZ-lx-hvc" customClass="MNOpeningViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -47,6 +47,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="handleSignUpButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="d80-Gl-Egh"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -67,7 +70,7 @@
         <!--Capture View Controller-->
         <scene sceneID="lQu-pX-kwj">
             <objects>
-                <viewController id="YO3-vL-id9" customClass="MNCaptureViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MNCaptureViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="YO3-vL-id9" customClass="MNCaptureViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="i0p-Sl-gwO"/>
                         <viewControllerLayoutGuide type="bottom" id="PMc-QC-bj4"/>

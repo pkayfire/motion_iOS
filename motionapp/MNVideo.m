@@ -24,4 +24,25 @@
     return @"MNVideo";
 }
 
++ (BFTask *)createMNVideoWithData:(NSData *)videoData
+{
+    BFTaskCompletionSource *createMNVideoCompletionSource = [BFTaskCompletionSource taskCompletionSource];
+    
+    PFFile *videoFile = [PFFile fileWithName:@"mnvideo.mp4" data:videoData];
+    MNVideo *mnVideo = [[MNVideo alloc] init];
+    
+    [mnVideo setMNVideoFile:videoFile];
+    [mnVideo setByUser:[MNUser currentUser]];
+    
+    [mnVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            [createMNVideoCompletionSource setResult:[NSNumber numberWithBool:succeeded]];
+        } else {
+            [createMNVideoCompletionSource setError:error];
+        }
+    }];
+
+    return createMNVideoCompletionSource.task;
+}
+
 @end

@@ -19,5 +19,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 
+- (IBAction)handleSignUpButton:(id)sender;
+
 @end
 

@@ -41,4 +41,6 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)handleSignUpButton:(id)sender {
+}
 @end
