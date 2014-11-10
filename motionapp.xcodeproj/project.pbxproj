@@ -13,7 +13,7 @@
 		663FE9A11A0EDDB80036A1AD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 663FE9A01A0EDDB80036A1AD /* main.m */; };
 		663FE9A41A0EDDB80036A1AD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 663FE9A31A0EDDB80036A1AD /* AppDelegate.m */; };
 		663FE9A71A0EDDB80036A1AD /* motionapp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 663FE9A51A0EDDB80036A1AD /* motionapp.xcdatamodeld */; };
-		663FE9AA1A0EDDB80036A1AD /* OpeningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 663FE9A91A0EDDB80036A1AD /* OpeningViewController.m */; };
+		663FE9AA1A0EDDB80036A1AD /* MNOpeningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 663FE9A91A0EDDB80036A1AD /* MNOpeningViewController.m */; };
 		663FE9AD1A0EDDB80036A1AD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663FE9AB1A0EDDB80036A1AD /* Main.storyboard */; };
 		663FE9AF1A0EDDB80036A1AD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 663FE9AE1A0EDDB80036A1AD /* Images.xcassets */; };
 		663FE9B21A0EDDB80036A1AD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 663FE9B01A0EDDB80036A1AD /* LaunchScreen.xib */; };
@@ -22,6 +22,10 @@
 		66837A6D1A10220600006BF6 /* VarelaRound-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 66837A6C1A1021F200006BF6 /* VarelaRound-Regular.otf */; };
 		66837A781A103C1300006BF6 /* MNUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 66837A771A103C1300006BF6 /* MNUser.m */; };
 		66837A7B1A103C2400006BF6 /* MNVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 66837A7A1A103C2400006BF6 /* MNVideo.m */; };
+		66837A7E1A103EC000006BF6 /* MNCaptureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66837A7D1A103EC000006BF6 /* MNCaptureViewController.m */; };
+		66837A801A1044A500006BF6 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66837A7F1A1044A500006BF6 /* CoreVideo.framework */; };
+		66837A821A1044AB00006BF6 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66837A811A1044AB00006BF6 /* GLKit.framework */; };
+		66837A841A1044B300006BF6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66837A831A1044B300006BF6 /* AudioToolbox.framework */; };
 		DE9ACE8001AF37E90C1E2F2A /* libPods-motionapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC9BD34D259745AF2D239ABC /* libPods-motionapp.a */; };
 /* End PBXBuildFile section */
 
@@ -46,8 +50,8 @@
 		663FE9A21A0EDDB80036A1AD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		663FE9A31A0EDDB80036A1AD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		663FE9A61A0EDDB80036A1AD /* motionapp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = motionapp.xcdatamodel; sourceTree = "<group>"; };
-		663FE9A81A0EDDB80036A1AD /* OpeningViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpeningViewController.h; sourceTree = "<group>"; };
-		663FE9A91A0EDDB80036A1AD /* OpeningViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpeningViewController.m; sourceTree = "<group>"; };
+		663FE9A81A0EDDB80036A1AD /* MNOpeningViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MNOpeningViewController.h; sourceTree = "<group>"; };
+		663FE9A91A0EDDB80036A1AD /* MNOpeningViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MNOpeningViewController.m; sourceTree = "<group>"; };
 		663FE9AC1A0EDDB80036A1AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		663FE9AE1A0EDDB80036A1AD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		663FE9B11A0EDDB80036A1AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -61,6 +65,11 @@
 		66837A771A103C1300006BF6 /* MNUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNUser.m; sourceTree = "<group>"; };
 		66837A791A103C2400006BF6 /* MNVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNVideo.h; sourceTree = "<group>"; };
 		66837A7A1A103C2400006BF6 /* MNVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNVideo.m; sourceTree = "<group>"; };
+		66837A7C1A103EC000006BF6 /* MNCaptureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNCaptureViewController.h; sourceTree = "<group>"; };
+		66837A7D1A103EC000006BF6 /* MNCaptureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNCaptureViewController.m; sourceTree = "<group>"; };
+		66837A7F1A1044A500006BF6 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		66837A811A1044AB00006BF6 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		66837A831A1044B300006BF6 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B4F0439C7F91E0B690D9F3AB /* Pods-motionapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-motionapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-motionapp/Pods-motionapp.release.xcconfig"; sourceTree = "<group>"; };
 		BC9BD34D259745AF2D239ABC /* libPods-motionapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-motionapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -70,6 +79,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66837A841A1044B300006BF6 /* AudioToolbox.framework in Frameworks */,
+				66837A821A1044AB00006BF6 /* GLKit.framework in Frameworks */,
+				66837A801A1044A500006BF6 /* CoreVideo.framework in Frameworks */,
 				6617F8BC1A1012CD00695975 /* MobileCoreServices.framework in Frameworks */,
 				6617F8BA1A1012C600695975 /* ImageIO.framework in Frameworks */,
 				6617F8B81A1012BF00695975 /* QuartzCore.framework in Frameworks */,
@@ -174,8 +186,10 @@
 		66837A6F1A103ADC00006BF6 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				663FE9A81A0EDDB80036A1AD /* OpeningViewController.h */,
-				663FE9A91A0EDDB80036A1AD /* OpeningViewController.m */,
+				663FE9A81A0EDDB80036A1AD /* MNOpeningViewController.h */,
+				663FE9A91A0EDDB80036A1AD /* MNOpeningViewController.m */,
+				66837A7C1A103EC000006BF6 /* MNCaptureViewController.h */,
+				66837A7D1A103EC000006BF6 /* MNCaptureViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -183,6 +197,9 @@
 		988CA4D485E866538337E2BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				66837A831A1044B300006BF6 /* AudioToolbox.framework */,
+				66837A811A1044AB00006BF6 /* GLKit.framework */,
+				66837A7F1A1044A500006BF6 /* CoreVideo.framework */,
 				6617F8BB1A1012CD00695975 /* MobileCoreServices.framework */,
 				6617F8B91A1012C600695975 /* ImageIO.framework */,
 				6617F8B71A1012BF00695975 /* QuartzCore.framework */,
@@ -339,10 +356,11 @@
 			files = (
 				663FE9A71A0EDDB80036A1AD /* motionapp.xcdatamodeld in Sources */,
 				663FE9A41A0EDDB80036A1AD /* AppDelegate.m in Sources */,
-				663FE9AA1A0EDDB80036A1AD /* OpeningViewController.m in Sources */,
+				663FE9AA1A0EDDB80036A1AD /* MNOpeningViewController.m in Sources */,
 				663FE9A11A0EDDB80036A1AD /* main.m in Sources */,
 				66837A7B1A103C2400006BF6 /* MNVideo.m in Sources */,
 				66837A781A103C1300006BF6 /* MNUser.m in Sources */,
+				66837A7E1A103EC000006BF6 /* MNCaptureViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

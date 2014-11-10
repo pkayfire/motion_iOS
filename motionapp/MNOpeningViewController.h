@@ -10,7 +10,7 @@
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
 
-@interface OpeningViewController : UIViewController
+@interface MNOpeningViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet FLAnimatedImageView *backgroundImageView;
 @property (weak, nonatomic) IBOutlet UITextView *titleTextView;

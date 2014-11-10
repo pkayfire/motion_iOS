@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Motion. All rights reserved.
 //
 
-#import "OpeningViewController.h"
+#import "MNOpeningViewController.h"
 
-@interface OpeningViewController ()
+@interface MNOpeningViewController ()
 
 @end
 
-@implementation OpeningViewController
+@implementation MNOpeningViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
