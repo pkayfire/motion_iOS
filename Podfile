@@ -9,6 +9,7 @@ pod 'Parse'
 pod 'CWStatusBarNotification'
 pod 'SCRecorder'
 pod 'FLAnimatedImage'
+pod 'PBJVideoPlayer'
 
 end
 

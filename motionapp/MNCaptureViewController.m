@@ -83,9 +83,9 @@
 {
     [super viewWillAppear:animated];
     
-    [self prepareCamera];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
-    self.navigationController.navigationBarHidden = YES;
+    [self prepareCamera];
 }
 
 - (void)viewDidLayoutSubviews

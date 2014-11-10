@@ -1,5 +1,5 @@
 #include "Pods-motionapp-CWStatusBarNotification.xcconfig"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Build" "${PODS_ROOT}/Headers/Build/CWStatusBarNotification" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Bolts" "${PODS_ROOT}/Headers/Public/CWStatusBarNotification" "${PODS_ROOT}/Headers/Public/FLAnimatedImage" "${PODS_ROOT}/Headers/Public/Parse" "${PODS_ROOT}/Headers/Public/SCRecorder"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Build" "${PODS_ROOT}/Headers/Build/CWStatusBarNotification" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Bolts" "${PODS_ROOT}/Headers/Public/CWStatusBarNotification" "${PODS_ROOT}/Headers/Public/FLAnimatedImage" "${PODS_ROOT}/Headers/Public/PBJVideoPlayer" "${PODS_ROOT}/Headers/Public/Parse" "${PODS_ROOT}/Headers/Public/SCRecorder"
 OTHER_LDFLAGS = -ObjC
 PODS_ROOT = ${SRCROOT}

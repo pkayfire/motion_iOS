@@ -115,6 +115,24 @@
             </objects>
             <point key="canvasLocation" x="470" y="1254"/>
         </scene>
+        <!--Player View Controller-->
+        <scene sceneID="yeb-Q1-ff5">
+            <objects>
+                <viewController storyboardIdentifier="MNPlayerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="2i0-Bf-clq" customClass="MNPlayerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dxn-DU-5hX"/>
+                        <viewControllerLayoutGuide type="bottom" id="c0X-kc-nGB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wf1-Og-0J5">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SDd-DZ-69v" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="873" y="1254"/>
+        </scene>
     </scenes>
     <resources>
         <image name="record_button" width="60" height="60"/>
