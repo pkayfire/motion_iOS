@@ -13,7 +13,10 @@
 
 @property (weak, nonatomic) IBOutlet UIView *previewView;
 
+@property (weak, nonatomic) IBOutlet UIButton *captureButton;
 @property (weak, nonatomic) IBOutlet UIButton *reverseCameraButton;
 @property (weak, nonatomic) IBOutlet UIButton *exitButton;
+
+- (IBAction)handleCaptureButton:(id)sender;
 
 @end

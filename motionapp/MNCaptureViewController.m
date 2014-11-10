@@ -39,7 +39,7 @@
     _recorder.sessionPreset = AVCaptureSessionPreset1280x720;
     _recorder.audioEnabled = YES;
     _recorder.delegate = self;
-    _recorder.autoSetVideoOrientation = YES;
+    _recorder.autoSetVideoOrientation = NO;
     
     // On iOS 8 and iPhone 5S, enabling this seems to be slow
     _recorder.initializeRecordSessionLazily = NO;
@@ -92,20 +92,42 @@
     if (_recorder.recordSession == nil) {
         
         SCRecordSession *session = [SCRecordSession recordSession];
-        session.suggestedMaxRecordDuration = CMTimeMakeWithSeconds(5, 10000);
+        session.suggestedMaxRecordDuration = CMTimeMakeWithSeconds(3, 10000);
         
         _recorder.recordSession = session;
     }
 }
 
+#pragma mark - UIButton Methods
+
 - (void) handleReverseCameraTapped:(id)sender {
     [_recorder switchCaptureDevices];
+}
+
+- (IBAction)handleCaptureButton:(id)sender {
+    NSLog(@"handleCaptureButton");
+    [_recorder record];
+}
+
+- (void)recorder:(SCRecorder *)recorder didCompleteRecordSession:(SCRecordSession *)recordSession
+{
+    _recorder.recordSession = nil;
+    
+    [recordSession endSession:^(NSError *error) {
+        if (error == nil) {
+            NSURL *fileUrl = recordSession.outputUrl;
+            // Do something with the output file :)
+            
+            NSLog(@"%@", fileUrl);
+        } else {
+            // Handle the error
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 @end

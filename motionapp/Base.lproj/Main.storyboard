@@ -96,6 +96,9 @@
                                         <state key="normal" image="record_button">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="handleCaptureButton:" destination="YO3-vL-id9" eventType="touchUpInside" id="dkB-Pj-3ID"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -106,6 +109,7 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="captureButton" destination="TLi-tA-S7f" id="hye-HQ-lCs"/>
                         <outlet property="exitButton" destination="F5k-MA-ZRB" id="AOs-Ml-WOc"/>
                         <outlet property="previewView" destination="E3q-sg-UqA" id="HRr-2o-cOJ"/>
                         <outlet property="reverseCameraButton" destination="bbM-Uc-tFr" id="2JU-7n-rwF"/>
