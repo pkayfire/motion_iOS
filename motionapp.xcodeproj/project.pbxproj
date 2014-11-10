@@ -27,6 +27,7 @@
 		66837A841A1044B300006BF6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66837A831A1044B300006BF6 /* AudioToolbox.framework */; };
 		66837A881A1056AD00006BF6 /* MNUIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 66837A871A1056AD00006BF6 /* MNUIButton.m */; };
 		66837A8A1A108E1500006BF6 /* subway_ios.gif in Resources */ = {isa = PBXBuildFile; fileRef = 66837A891A108E1500006BF6 /* subway_ios.gif */; };
+		66837A8D1A109E1600006BF6 /* MNPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66837A8C1A109E1600006BF6 /* MNPlayerViewController.m */; };
 		DE9ACE8001AF37E90C1E2F2A /* libPods-motionapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC9BD34D259745AF2D239ABC /* libPods-motionapp.a */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +74,8 @@
 		66837A861A1056AD00006BF6 /* MNUIButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNUIButton.h; sourceTree = "<group>"; };
 		66837A871A1056AD00006BF6 /* MNUIButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNUIButton.m; sourceTree = "<group>"; };
 		66837A891A108E1500006BF6 /* subway_ios.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = subway_ios.gif; sourceTree = "<group>"; };
+		66837A8B1A109E1600006BF6 /* MNPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNPlayerViewController.h; sourceTree = "<group>"; };
+		66837A8C1A109E1600006BF6 /* MNPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNPlayerViewController.m; sourceTree = "<group>"; };
 		B4F0439C7F91E0B690D9F3AB /* Pods-motionapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-motionapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-motionapp/Pods-motionapp.release.xcconfig"; sourceTree = "<group>"; };
 		BC9BD34D259745AF2D239ABC /* libPods-motionapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-motionapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -194,6 +197,8 @@
 				663FE9A91A0EDDB80036A1AD /* MNOpeningViewController.m */,
 				66837A7C1A103EC000006BF6 /* MNCaptureViewController.h */,
 				66837A7D1A103EC000006BF6 /* MNCaptureViewController.m */,
+				66837A8B1A109E1600006BF6 /* MNPlayerViewController.h */,
+				66837A8C1A109E1600006BF6 /* MNPlayerViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -375,6 +380,7 @@
 				66837A7B1A103C2400006BF6 /* MNVideo.m in Sources */,
 				66837A781A103C1300006BF6 /* MNUser.m in Sources */,
 				66837A7E1A103EC000006BF6 /* MNCaptureViewController.m in Sources */,
+				66837A8D1A109E1600006BF6 /* MNPlayerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
