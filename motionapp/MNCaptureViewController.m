@@ -9,8 +9,12 @@
 #import <AVFoundation/AVFoundation.h>
 
 #import "MNCaptureViewController.h"
+#import "MNVideo.h"
+
 #import "SCAudioTools.h"
 #import "SCRecorderFocusView.h"
+
+#import "CWStatusBarNotification.h"
 
 #define kVideoPreset AVCaptureSessionPresetHigh
 
@@ -18,7 +22,8 @@
     SCRecorder *_recorder;
     UIImage *_photo;
     SCRecordSession *_recordSession;
-    UIImageView *_ghostImageView;
+    
+    CWStatusBarNotification *_statusBarNotification;
 }
 
 @end
@@ -29,8 +34,11 @@
     [super viewDidLoad];
     
     UIColor *motionRed = [UIColor colorWithRed:245.0/255.0f green:110.0/255.0f blue:94.0/255.0f alpha:1.0f];
-    UIColor *motionRedLight = [UIColor colorWithRed:248.0/255.0f green:155.0/255.0f blue:144.0/255.0f alpha:1.0f];
+    //UIColor *motionRedLight = [UIColor colorWithRed:248.0/255.0f green:155.0/255.0f blue:144.0/255.0f alpha:1.0f];
     
+    _statusBarNotification = [CWStatusBarNotification new];
+    _statusBarNotification.notificationLabelBackgroundColor = motionRed;
+    _statusBarNotification.notificationLabelTextColor = [UIColor whiteColor];
     
     [self.reverseCameraButton setImage:[UIImage imageNamed:@"switch_camera_button_highlighted"] forState:UIControlStateHighlighted | UIControlStateSelected];
     [self.reverseCameraButton addTarget:self action:@selector(handleReverseCameraTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -48,9 +56,6 @@
     _recorder.previewView = previewView;
     
     [_recorder openSession:^(NSError *sessionError, NSError *audioError, NSError *videoError, NSError *photoError) {
-        NSError *error = nil;
-        NSLog(@"%@", error);
-        
         NSLog(@"==== Opened session ====");
         NSLog(@"Session error: %@", sessionError.description);
         NSLog(@"Audio error : %@", audioError.description);
@@ -105,20 +110,46 @@
 }
 
 - (IBAction)handleCaptureButton:(id)sender {
-    NSLog(@"handleCaptureButton");
+    if (!_recorder.recordSession) {
+        SCRecordSession *session = [SCRecordSession recordSession];
+        session.suggestedMaxRecordDuration = CMTimeMakeWithSeconds(3, 10000);
+        _recorder.recordSession = session;
+    }
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [_statusBarNotification displayNotificationWithMessage:@"Recording Motion... 3 Seconds Remaining" completion:nil];
+    });
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        _statusBarNotification.notificationLabel.text = @"2 Seconds Remaining";
+    });
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        _statusBarNotification.notificationLabel.text = @"1 Second Remaining";
+    });
+    
     [_recorder record];
 }
 
 - (void)recorder:(SCRecorder *)recorder didCompleteRecordSession:(SCRecordSession *)recordSession
 {
     _recorder.recordSession = nil;
+    _statusBarNotification.notificationLabel.text = @"Saving Motion...";
     
     [recordSession endSession:^(NSError *error) {
         if (error == nil) {
             NSURL *fileUrl = recordSession.outputUrl;
-            // Do something with the output file :)
-            
-            NSLog(@"%@", fileUrl);
+            [[MNVideo createMNVideoWithData:[NSData dataWithContentsOfURL:fileUrl]] continueWithBlock:^id(BFTask *task) {
+                if (!task.error) {
+                    _statusBarNotification.notificationLabel.text = @"Motion Saved!";
+                } else {
+                    _statusBarNotification.notificationLabel.text = @"An error occured! Please try again.";
+                }
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    [_statusBarNotification dismissNotification];
+                });
+                return nil;
+            }];
         } else {
             // Handle the error
         }
