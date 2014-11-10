@@ -7,8 +7,13 @@
 //
 
 #import "MNOpeningViewController.h"
+#import "MNUser.h"
 
-@interface MNOpeningViewController ()
+#import "CWStatusBarNotification.h"
+
+@interface MNOpeningViewController () {
+    CWStatusBarNotification *_statusBarNotification;
+}
 
 @end
 
@@ -18,6 +23,18 @@
     [super viewDidLoad];
     
     UIColor *motionRed = [UIColor colorWithRed:245.0/255.0f green:110.0/255.0f blue:94.0/255.0f alpha:1.0f];
+    
+    _statusBarNotification = [CWStatusBarNotification new];
+    _statusBarNotification.notificationLabelBackgroundColor = motionRed;
+    _statusBarNotification.notificationLabelTextColor = [UIColor whiteColor];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [_statusBarNotification displayNotificationWithMessage:@"Welcome to Motion!" completion:nil];
+    });
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [_statusBarNotification dismissNotification];
+    });
     
     FLAnimatedImage *backgroundImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"subway_ios_2" ofType:@"gif"]]];
     self.backgroundImageView.animatedImage = backgroundImage;
@@ -42,5 +59,20 @@
 }
 
 - (IBAction)handleSignUpButton:(id)sender {
+    [_statusBarNotification displayNotificationWithMessage:@"Signing Up..." completion:nil];
+
+    [[MNUser createMNUser] continueWithBlock:^id(BFTask *task) {
+        if (!task.error) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [_statusBarNotification dismissNotification];
+            });
+            [self dismissViewControllerAnimated:YES completion:nil];
+        } else {
+            [_statusBarNotification dismissNotification];
+            [_statusBarNotification displayNotificationWithMessage:@"An error occurred! Please try again." completion:nil];
+        }
+        return nil;
+    }];
 }
+
 @end

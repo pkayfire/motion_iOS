@@ -18,4 +18,6 @@
 @property PFFile *MNVideoFile;
 @property MNUser *byUser;
 
++ (BFTask *)createMNVideoWithData:(NSData *)videoData;
+
 @end

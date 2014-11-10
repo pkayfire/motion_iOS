@@ -16,4 +16,24 @@
     [self registerSubclass];
 }
 
++ (BFTask *)createMNUser
+{
+    BFTaskCompletionSource *createMNUserCompletionSource = [BFTaskCompletionSource taskCompletionSource];
+    
+    MNUser *mnUser = [[MNUser alloc] init];
+    
+    mnUser.username = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    mnUser.password = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    
+    [mnUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            [createMNUserCompletionSource setResult:[NSNumber numberWithBool:succeeded]];
+        } else {
+            [createMNUserCompletionSource setError:error];
+        }
+    }];
+
+    return createMNUserCompletionSource.task;
+}
+
 @end

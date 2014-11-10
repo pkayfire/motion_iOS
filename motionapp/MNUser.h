@@ -11,4 +11,6 @@
 
 @interface MNUser : PFUser<PFSubclassing>
 
++ (BFTask *)createMNUser;
+
 @end
