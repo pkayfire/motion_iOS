@@ -8,14 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "SCRecorder.h"
+#import "PBJVideoPlayerController.h"
 
-@interface MNCaptureViewController : UIViewController<SCRecorderDelegate>
+@interface MNCaptureViewController : UIViewController<SCRecorderDelegate, PBJVideoPlayerControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *previewView;
 
 @property (weak, nonatomic) IBOutlet UIButton *captureButton;
 @property (weak, nonatomic) IBOutlet UIButton *reverseCameraButton;
 @property (weak, nonatomic) IBOutlet UIButton *exitButton;
+
+@property (strong, nonatomic) UIVisualEffectView *visualEffectView;
+
 
 - (IBAction)handleCaptureButton:(id)sender;
 

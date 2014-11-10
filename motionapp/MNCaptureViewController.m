@@ -9,6 +9,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 #import "MNCaptureViewController.h"
+#import "MNCaptureViewController+Animations.h"
 #import "MNVideo.h"
 
 #import "SCAudioTools.h"
@@ -24,7 +25,10 @@
     SCRecordSession *_recordSession;
     
     CWStatusBarNotification *_statusBarNotification;
-    UIVisualEffectView *_visualEffectView;
+    
+    PBJVideoPlayerController *_videoPlayerController;
+    
+    NSURL *_videoPath;
 }
 
 @end
@@ -101,14 +105,7 @@
 
     [_recorder startRunningSession];
     
-    [UIView animateWithDuration:1.0f
-                          delay:0.1f
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         _visualEffectView.alpha = 0.0f;
-                     } completion:^(BOOL finished) {
-                         
-                     }];
+    [self hideBlurBackground];
 }
 
 #pragma mark - SCRecorder Methods
@@ -121,6 +118,43 @@
         
         _recorder.recordSession = session;
     }
+}
+
+#pragma mark - PBJVideoPlayerControllerDelegate
+
+- (void)prepareVideoPlayer {
+    // allocate controller
+    _videoPlayerController = [[PBJVideoPlayerController alloc] init];
+    _videoPlayerController.delegate = self;
+    _videoPlayerController.view.frame = self.view.bounds;
+    
+    // setup media
+    _videoPlayerController.videoPath = [_videoPath absoluteString];
+    
+    // present
+    [self addChildViewController:_videoPlayerController];
+    [self.previewView addSubview:_videoPlayerController.view];
+    [_videoPlayerController didMoveToParentViewController:self];
+}
+
+- (void)videoPlayerReady:(PBJVideoPlayerController *)videoPlayer
+{
+    NSLog(@"Max duration of the video: %f", videoPlayer.maxDuration);
+}
+
+- (void)videoPlayerPlaybackStateDidChange:(PBJVideoPlayerController *)videoPlayer
+{
+    
+}
+
+- (void)videoPlayerPlaybackWillStartFromBeginning:(PBJVideoPlayerController *)videoPlayer
+{
+
+}
+
+- (void)videoPlayerPlaybackDidEnd:(PBJVideoPlayerController *)videoPlayer
+{
+
 }
 
 #pragma mark - UIButton Methods
@@ -154,8 +188,7 @@
 - (void)recorder:(SCRecorder *)recorder didCompleteRecordSession:(SCRecordSession *)recordSession
 {
     _recorder.recordSession = nil;
-    
-    [UIView animateWithDuration:0.5f
+    [UIView animateWithDuration:1.0f
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
@@ -167,18 +200,16 @@
     [recordSession endSession:^(NSError *error) {
         if (error == nil) {
             NSURL *fileUrl = recordSession.outputUrl;
+            _videoPath = fileUrl;
             [[MNVideo createMNVideoWithData:[NSData dataWithContentsOfURL:fileUrl]] continueWithBlock:^id(BFTask *task) {
                 if (!task.error) {
                     _statusBarNotification.notificationLabel.text = @"Motion Saved!";
+                    [self prepareVideoPlayer];
+                    [self hideBlurBackground];
                 } else {
                     _statusBarNotification.notificationLabel.text = @"An error occured! Please try again.";
+                    [self hideBlurBackground];
                 }
-                [UIView animateWithDuration:0.5f
-                                      delay:0.0f
-                                    options:UIViewAnimationOptionCurveEaseOut
-                                 animations:^{
-                                     _visualEffectView.alpha = 0.0f;
-                                 } completion:nil];
                 
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                     [_statusBarNotification dismissNotification];
@@ -191,12 +222,7 @@
                 [_statusBarNotification dismissNotification];
             });
             
-            [UIView animateWithDuration:0.5f
-                                  delay:0.0f
-                                options:UIViewAnimationOptionCurveEaseOut
-                             animations:^{
-                                 _visualEffectView.alpha = 0.0f;
-                             } completion:nil];
+
         }
     }];
 }
