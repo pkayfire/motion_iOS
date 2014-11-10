@@ -15,6 +15,7 @@
 #import "SCRecorderFocusView.h"
 
 #import "CWStatusBarNotification.h"
+#import <LiveFrost/LiveFrost.h>
 
 #define kVideoPreset AVCaptureSessionPresetHigh
 
@@ -24,6 +25,7 @@
     SCRecordSession *_recordSession;
     
     CWStatusBarNotification *_statusBarNotification;
+    LFGlassView *_glassView;
 }
 
 @end
@@ -64,6 +66,16 @@
         NSLog(@"=======================");
         [self prepareCamera];
     }];
+    
+    UIVisualEffect *blurEffect;
+    blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    
+    UIVisualEffectView *visualEffectView;
+    visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    
+    visualEffectView.frame = self.view.bounds;
+    
+    [self.previewView addSubview:visualEffectView];
 }
 
 -(BOOL)prefersStatusBarHidden { return YES; }
