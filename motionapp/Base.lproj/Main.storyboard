@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qJi-YM-2lC" customClass="FLAnimatedImageView">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qJi-YM-2lC" userLabel="Background View" customClass="FLAnimatedImageView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Motion" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IBI-kz-A55">
@@ -56,7 +56,7 @@
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
-                        <outlet property="backgroundImageView" destination="qJi-YM-2lC" id="TwC-tE-Et6"/>
+                        <outlet property="backgroundImageView" destination="qJi-YM-2lC" id="TDJ-Ox-WbN"/>
                         <outlet property="quoteTextView" destination="9KV-NH-7zL" id="qBk-v4-wwH"/>
                         <outlet property="signUpButton" destination="OCR-ou-Jnt" id="Yp4-qw-jZg"/>
                         <outlet property="subtitleTextView" destination="Ucu-yu-tyq" id="4Wt-R8-mkT"/>
@@ -83,13 +83,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bbM-Uc-tFr" userLabel="Switch Camera Button" customClass="MNUIButton">
-                                        <rect key="frame" x="258" y="22" width="44" height="40"/>
+                                        <rect key="frame" x="258" y="21" width="44" height="40"/>
                                         <state key="normal" title="Button" image="switch_camera_button">
                                             <color key="titleShadowColor" red="0.96078431372549022" green="0.43137254901960786" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F5k-MA-ZRB" userLabel="Exit Button">
-                                        <rect key="frame" x="20" y="27" width="30" height="30"/>
+                                        <rect key="frame" x="20" y="26" width="30" height="30"/>
                                         <state key="normal" title="Button" image="exit_button">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>

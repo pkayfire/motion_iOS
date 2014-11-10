@@ -36,7 +36,7 @@
         [_statusBarNotification dismissNotification];
     });
     
-    FLAnimatedImage *backgroundImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"subway_ios_2" ofType:@"gif"]]];
+    FLAnimatedImage *backgroundImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"subway_ios" ofType:@"gif"]]];
     self.backgroundImageView.animatedImage = backgroundImage;
     
     self.titleTextView.font = [UIFont fontWithName:@"VarelaRound" size:65.0f];
@@ -47,6 +47,16 @@
     [self.signUpButton.layer setBorderWidth:2.5f];
     [self.signUpButton.layer setBorderColor:[motionRed CGColor]];
     [self.signUpButton.layer setCornerRadius:5.0f];
+    
+    UIVisualEffect *blurEffect;
+    blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    
+    UIVisualEffectView *visualEffectView;
+    visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    
+    visualEffectView.frame = self.view.bounds;
+    
+    [self.backgroundImageView addSubview:visualEffectView];
 }
 
 - (UIStatusBarStyle) preferredStatusBarStyle {
