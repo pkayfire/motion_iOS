@@ -88,12 +88,6 @@
                                             <color key="titleShadowColor" red="0.96078431372549022" green="0.43137254901960786" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F5k-MA-ZRB" userLabel="Exit Button">
-                                        <rect key="frame" x="20" y="26" width="30" height="30"/>
-                                        <state key="normal" title="Button" image="exit_button">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TLi-tA-S7f" userLabel="Capture Button">
                                         <rect key="frame" x="130" y="480" width="60" height="60"/>
                                         <state key="normal" image="record_button">
@@ -113,7 +107,6 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="captureButton" destination="TLi-tA-S7f" id="hye-HQ-lCs"/>
-                        <outlet property="exitButton" destination="F5k-MA-ZRB" id="AOs-Ml-WOc"/>
                         <outlet property="previewView" destination="E3q-sg-UqA" id="HRr-2o-cOJ"/>
                         <outlet property="reverseCameraButton" destination="bbM-Uc-tFr" id="2JU-7n-rwF"/>
                     </connections>
@@ -124,7 +117,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="exit_button" width="30" height="30"/>
         <image name="record_button" width="60" height="60"/>
         <image name="switch_camera_button" width="44" height="40"/>
     </resources>

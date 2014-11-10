@@ -34,6 +34,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
     UIColor *motionRed = [UIColor colorWithRed:245.0/255.0f green:110.0/255.0f blue:94.0/255.0f alpha:1.0f];
     //UIColor *motionRedLight = [UIColor colorWithRed:248.0/255.0f green:155.0/255.0f blue:144.0/255.0f alpha:1.0f];
     
@@ -45,7 +47,7 @@
     [self.reverseCameraButton addTarget:self action:@selector(handleReverseCameraTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     _recorder = [SCRecorder recorder];
-    _recorder.sessionPreset = AVCaptureSessionPreset1280x720;
+    _recorder.sessionPreset = AVCaptureSessionPreset640x480;
     _recorder.audioEnabled = YES;
     _recorder.delegate = self;
     _recorder.autoSetVideoOrientation = NO;
@@ -71,10 +73,11 @@
     
     _visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
     _visualEffectView.frame = self.view.bounds;
+    _visualEffectView.alpha = 1.0f;
     [self.previewView addSubview:_visualEffectView];
 }
 
--(BOOL)prefersStatusBarHidden { return YES; }
+- (BOOL)prefersStatusBarHidden { return YES; }
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -94,9 +97,18 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
+    NSLog(@"MNCaptureViewController ViewDidAppear");
+
     [_recorder startRunningSession];
-    //[_recorder focusCenter];
+    
+    [UIView animateWithDuration:1.0f
+                          delay:0.1f
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         _visualEffectView.alpha = 0.0f;
+                     } completion:^(BOOL finished) {
+                         
+                     }];
 }
 
 #pragma mark - SCRecorder Methods
@@ -142,7 +154,15 @@
 - (void)recorder:(SCRecorder *)recorder didCompleteRecordSession:(SCRecordSession *)recordSession
 {
     _recorder.recordSession = nil;
-    _statusBarNotification.notificationLabel.text = @"Saving Motion...";
+    
+    [UIView animateWithDuration:0.5f
+                          delay:0.0f
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         _visualEffectView.alpha = 1.0f;
+                     } completion:^(BOOL finished) {
+                         _statusBarNotification.notificationLabel.text = @"Saving Motion...";
+                     }];
     
     [recordSession endSession:^(NSError *error) {
         if (error == nil) {
@@ -153,13 +173,30 @@
                 } else {
                     _statusBarNotification.notificationLabel.text = @"An error occured! Please try again.";
                 }
+                [UIView animateWithDuration:0.5f
+                                      delay:0.0f
+                                    options:UIViewAnimationOptionCurveEaseOut
+                                 animations:^{
+                                     _visualEffectView.alpha = 0.0f;
+                                 } completion:nil];
+                
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                     [_statusBarNotification dismissNotification];
                 });
                 return nil;
             }];
         } else {
-            // Handle the error
+            _statusBarNotification.notificationLabel.text = @"An error occured! Please try again.";
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [_statusBarNotification dismissNotification];
+            });
+            
+            [UIView animateWithDuration:0.5f
+                                  delay:0.0f
+                                options:UIViewAnimationOptionCurveEaseOut
+                             animations:^{
+                                 _visualEffectView.alpha = 0.0f;
+                             } completion:nil];
         }
     }];
 }
