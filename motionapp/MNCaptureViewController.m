@@ -130,6 +130,7 @@
     
     // setup media
     _videoPlayerController.videoPath = [_videoPath absoluteString];
+    _videoPlayerController.videoFillMode = AVLayerVideoGravityResizeAspectFill;
     
     // present
     [self addChildViewController:_videoPlayerController];
