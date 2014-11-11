@@ -13,4 +13,7 @@
 - (void)showBlurBackground;
 - (void)hideBlurBackground;
 
+- (void)showButtons;
+- (void)hideButtons;
+
 @end

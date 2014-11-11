@@ -131,10 +131,11 @@
     // setup media
     _videoPlayerController.videoPath = [_videoPath absoluteString];
     _videoPlayerController.videoFillMode = AVLayerVideoGravityResizeAspectFill;
+    [_videoPlayerController setPlaybackLoops:YES];
     
     // present
     [self addChildViewController:_videoPlayerController];
-    [self.previewView addSubview:_videoPlayerController.view];
+    [self.previewView insertSubview:_videoPlayerController.view belowSubview:_visualEffectView];
     [_videoPlayerController didMoveToParentViewController:self];
 }
 
@@ -183,6 +184,7 @@
         _statusBarNotification.notificationLabel.text = @"1 Second Remaining";
     });
     
+    [self hideButtons];
     [_recorder record];
 }
 
@@ -206,7 +208,9 @@
                 if (!task.error) {
                     _statusBarNotification.notificationLabel.text = @"Motion Saved!";
                     [self prepareVideoPlayer];
-                    [self hideBlurBackground];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                        [self hideBlurBackground];
+                    });
                 } else {
                     _statusBarNotification.notificationLabel.text = @"An error occured! Please try again.";
                     [self hideBlurBackground];
