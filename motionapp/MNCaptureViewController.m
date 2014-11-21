@@ -10,6 +10,9 @@
 
 #import "MNCaptureViewController.h"
 #import "MNCaptureViewController+Animations.h"
+
+#import "MNOpeningViewController.h"
+
 #import "MNVideo.h"
 
 #import "SCAudioTools.h"
@@ -29,6 +32,8 @@
     PBJVideoPlayerController *_videoPlayerController;
     
     NSURL *_videoPath;
+    
+    BOOL _inPlaybackMode;
 }
 
 @end
@@ -79,6 +84,10 @@
     _visualEffectView.frame = self.view.bounds;
     _visualEffectView.alpha = 1.0f;
     [self.previewView addSubview:_visualEffectView];
+    
+    [self.playButton setAlpha:0.0f];
+    
+    _inPlaybackMode = NO;
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }
@@ -105,6 +114,17 @@
 
     [_recorder startRunningSession];
     
+    [[MNVideo getAllMNVideosAsOneVideo] continueWithBlock:^id(BFTask *task) {
+        if (task.error) {
+          
+            return nil;
+        }
+        
+        NSLog(@"%@", task.result);
+        
+        return nil;
+    }];
+    
     [self hideBlurBackground];
 }
 
@@ -123,8 +143,15 @@
 #pragma mark - PBJVideoPlayerControllerDelegate
 
 - (void)prepareVideoPlayer {
+    _inPlaybackMode = YES;
+    
+    [self showExitButton];
+    [self.playButton setAlpha:1.0f];
+    
     // allocate controller
-    _videoPlayerController = [[PBJVideoPlayerController alloc] init];
+    if (!_videoPlayerController) {
+        _videoPlayerController = [[PBJVideoPlayerController alloc] init];
+    }
     _videoPlayerController.delegate = self;
     _videoPlayerController.view.frame = self.view.bounds;
     
@@ -185,7 +212,23 @@
     });
     
     [self hideButtons];
+    [self hideExitButton];
     [_recorder record];
+}
+
+- (IBAction)handleExitButton:(id)sender {
+    if (_inPlaybackMode) {
+        _inPlaybackMode = NO;
+        [_videoPlayerController.view removeFromSuperview];
+    } else {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        MNOpeningViewController *openingVC = [sb instantiateViewControllerWithIdentifier:@"MNOpeningViewController"];
+        [self presentViewController:openingVC animated:YES completion:nil];
+    }
+}
+
+- (IBAction)handlePlayButton:(id)sender {
+    
 }
 
 - (void)recorder:(SCRecorder *)recorder didCompleteRecordSession:(SCRecordSession *)recordSession

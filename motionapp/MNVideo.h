@@ -19,5 +19,6 @@
 @property MNUser *byUser;
 
 + (BFTask *)createMNVideoWithData:(NSData *)videoData;
++ (BFTask *)getAllMNVideosAsOneVideo;
 
 @end

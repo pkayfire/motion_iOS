@@ -53,4 +53,24 @@
                      } completion:nil];
 }
 
+- (void)hideExitButton
+{
+    [UIView animateWithDuration:1.0f
+                          delay:0.0f
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.exitButton.alpha = 0.0f;
+                     } completion:nil];
+}
+
+- (void)showExitButton
+{
+    [UIView animateWithDuration:1.0f
+                          delay:0.0f
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.exitButton.alpha = 1.0f;
+                     } completion:nil];
+}
+
 @end

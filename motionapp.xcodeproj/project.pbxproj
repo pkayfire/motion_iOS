@@ -10,6 +10,7 @@
 		6617F8B81A1012BF00695975 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6617F8B71A1012BF00695975 /* QuartzCore.framework */; };
 		6617F8BA1A1012C600695975 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6617F8B91A1012C600695975 /* ImageIO.framework */; };
 		6617F8BC1A1012CD00695975 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6617F8BB1A1012CD00695975 /* MobileCoreServices.framework */; };
+		6627969A1A199D17006D2738 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 662796991A199D17006D2738 /* AVFoundation.framework */; };
 		663FE9A11A0EDDB80036A1AD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 663FE9A01A0EDDB80036A1AD /* main.m */; };
 		663FE9A41A0EDDB80036A1AD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 663FE9A31A0EDDB80036A1AD /* AppDelegate.m */; };
 		663FE9A71A0EDDB80036A1AD /* motionapp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 663FE9A51A0EDDB80036A1AD /* motionapp.xcdatamodeld */; };
@@ -46,6 +47,7 @@
 		6617F8B71A1012BF00695975 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6617F8B91A1012C600695975 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		6617F8BB1A1012CD00695975 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		662796991A199D17006D2738 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		663FE99B1A0EDDB80036A1AD /* motionapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = motionapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		663FE99F1A0EDDB80036A1AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		663FE9A01A0EDDB80036A1AD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6627969A1A199D17006D2738 /* AVFoundation.framework in Frameworks */,
 				66837A841A1044B300006BF6 /* AudioToolbox.framework in Frameworks */,
 				66837A821A1044AB00006BF6 /* GLKit.framework in Frameworks */,
 				66837A801A1044A500006BF6 /* CoreVideo.framework in Frameworks */,
@@ -215,6 +218,7 @@
 		988CA4D485E866538337E2BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				662796991A199D17006D2738 /* AVFoundation.framework */,
 				66837A831A1044B300006BF6 /* AudioToolbox.framework */,
 				66837A811A1044AB00006BF6 /* GLKit.framework */,
 				66837A7F1A1044A500006BF6 /* CoreVideo.framework */,

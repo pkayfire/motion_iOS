@@ -17,10 +17,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *captureButton;
 @property (weak, nonatomic) IBOutlet UIButton *reverseCameraButton;
 @property (weak, nonatomic) IBOutlet UIButton *exitButton;
+@property (weak, nonatomic) IBOutlet UIButton *playButton;
 
 @property (strong, nonatomic) UIVisualEffectView *visualEffectView;
 
 
 - (IBAction)handleCaptureButton:(id)sender;
+- (IBAction)handleExitButton:(id)sender;
+- (IBAction)handlePlayButton:(id)sender;
 
 @end

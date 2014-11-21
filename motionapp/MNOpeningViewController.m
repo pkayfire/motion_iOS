@@ -73,20 +73,24 @@
 }
 
 - (IBAction)handleSignUpButton:(id)sender {
-    [_statusBarNotification displayNotificationWithMessage:@"Signing Up..." completion:nil];
-
-    [[MNUser createMNUser] continueWithBlock:^id(BFTask *task) {
-        if (!task.error) {
-            [_statusBarNotification dismissNotification];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.25 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                [self dismissViewControllerAnimated:YES completion:nil];
-            });
-        } else {
-            [_statusBarNotification dismissNotification];
-            [_statusBarNotification displayNotificationWithMessage:@"An error occurred! Please try again." completion:nil];
-        }
-        return nil;
-    }];
+    if (![MNUser currentUser]) {
+        [_statusBarNotification displayNotificationWithMessage:@"Signing Up..." completion:nil];
+        
+        [[MNUser createMNUser] continueWithBlock:^id(BFTask *task) {
+            if (!task.error) {
+                [_statusBarNotification dismissNotification];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.25 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                });
+            } else {
+                [_statusBarNotification dismissNotification];
+                [_statusBarNotification displayNotificationWithMessage:@"An error occurred! Please try again." completion:nil];
+            }
+            return nil;
+        }];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 @end

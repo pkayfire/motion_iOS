@@ -84,7 +84,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bbM-Uc-tFr" userLabel="Switch Camera Button" customClass="MNUIButton">
                                         <rect key="frame" x="258" y="21" width="44" height="40"/>
-                                        <state key="normal" title="Button" image="switch_camera_button">
+                                        <state key="normal" image="switch_camera_button">
                                             <color key="titleShadowColor" red="0.96078431372549022" green="0.43137254901960786" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
@@ -97,6 +97,24 @@
                                             <action selector="handleCaptureButton:" destination="YO3-vL-id9" eventType="touchUpInside" id="dkB-Pj-3ID"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MVT-Mo-6hY" userLabel="Exit Button">
+                                        <rect key="frame" x="22" y="27" width="30" height="30"/>
+                                        <state key="normal" image="exit_button">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="handleExitButton:" destination="YO3-vL-id9" eventType="touchUpInside" id="IZ7-Zu-tZh"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jcN-FC-cYx">
+                                        <rect key="frame" x="137" y="259" width="50" height="50"/>
+                                        <state key="normal" image="play_arrow">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="handlePlayButton:" destination="YO3-vL-id9" eventType="touchUpInside" id="hic-WR-d6N"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.96078431369999995" green="0.43137254899999999" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
@@ -107,6 +125,8 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="captureButton" destination="TLi-tA-S7f" id="hye-HQ-lCs"/>
+                        <outlet property="exitButton" destination="MVT-Mo-6hY" id="Nme-dB-knB"/>
+                        <outlet property="playButton" destination="jcN-FC-cYx" id="PeE-Tl-dcw"/>
                         <outlet property="previewView" destination="E3q-sg-UqA" id="HRr-2o-cOJ"/>
                         <outlet property="reverseCameraButton" destination="bbM-Uc-tFr" id="2JU-7n-rwF"/>
                     </connections>
@@ -117,6 +137,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="exit_button" width="30" height="30"/>
+        <image name="play_arrow" width="50" height="50"/>
         <image name="record_button" width="60" height="60"/>
         <image name="switch_camera_button" width="44" height="40"/>
     </resources>
