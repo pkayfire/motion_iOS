@@ -16,7 +16,4 @@
 - (void)showButtons;
 - (void)hideButtons;
 
-- (void)showExitButton;
-- (void)hideExitButton;
-
 @end

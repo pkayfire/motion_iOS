@@ -30,6 +30,7 @@
     CWStatusBarNotification *_statusBarNotification;
     
     PBJVideoPlayerController *_videoPlayerController;
+    UIButton *_videoPlayerControllerExitButton;
     
     NSURL *_videoPath;
     
@@ -85,8 +86,6 @@
     _visualEffectView.alpha = 1.0f;
     [self.previewView addSubview:_visualEffectView];
     
-    [self.playButton setAlpha:0.0f];
-    
     _inPlaybackMode = NO;
 }
 
@@ -136,9 +135,6 @@
 {
     _inPlaybackMode = YES;
     
-    [self showExitButton];
-    [self.playButton setAlpha:1.0f];
-    
     // allocate controller
     if (!_videoPlayerController) {
         _videoPlayerController = [[PBJVideoPlayerController alloc] init];
@@ -150,21 +146,33 @@
     _videoPlayerController.videoPath = [videoURL absoluteString];
     _videoPlayerController.videoFillMode = AVLayerVideoGravityResizeAspectFill;
     [_videoPlayerController setPlaybackLoops:YES];
-    
-    // present
-    [self addChildViewController:_videoPlayerController];
-    [self.previewView insertSubview:_videoPlayerController.view belowSubview:_visualEffectView];
-    [_videoPlayerController didMoveToParentViewController:self];
 }
 
 - (void)videoPlayerReady:(PBJVideoPlayerController *)videoPlayer
 {
     NSLog(@"Max duration of the video: %f", videoPlayer.maxDuration);
+    [self addChildViewController:_videoPlayerController];
+    
+    // Add Exit Button to _videoPlayerController
+    if (!_videoPlayerControllerExitButton) {
+        _videoPlayerControllerExitButton = [[UIButton alloc] initWithFrame:CGRectMake(22, 27, 30, 30)];
+    }
+    [_videoPlayerControllerExitButton addTarget:self action:@selector(handleVideoPlayerControllerExitButton:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIImage *exitImage = [UIImage imageNamed:@"exit_button"];
+    [_videoPlayerControllerExitButton setImage:exitImage forState:UIControlStateNormal];
+    [_videoPlayerController.view addSubview:_videoPlayerControllerExitButton];
+    
+    [self.previewView insertSubview:_videoPlayerController.view belowSubview:_visualEffectView];
+    [_videoPlayerController didMoveToParentViewController:self];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self hideBlurBackground];
+    });
 }
 
 - (void)videoPlayerPlaybackStateDidChange:(PBJVideoPlayerController *)videoPlayer
 {
-    
+    NSLog(@"playback state did change");
 }
 
 - (void)videoPlayerPlaybackWillStartFromBeginning:(PBJVideoPlayerController *)videoPlayer
@@ -174,7 +182,7 @@
 
 - (void)videoPlayerPlaybackDidEnd:(PBJVideoPlayerController *)videoPlayer
 {
-
+    
 }
 
 #pragma mark - UIButton Methods
@@ -188,24 +196,19 @@
 {
     if (!_recorder.recordSession) {
         SCRecordSession *session = [SCRecordSession recordSession];
-        session.suggestedMaxRecordDuration = CMTimeMakeWithSeconds(3, 10000);
+        session.suggestedMaxRecordDuration = CMTimeMakeWithSeconds(2, 10000);
         _recorder.recordSession = session;
     }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [_statusBarNotification displayNotificationWithMessage:@"Recording Motion... 3 Seconds Remaining" completion:nil];
-    });
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        _statusBarNotification.notificationLabel.text = @"2 Seconds Remaining";
+        [_statusBarNotification displayNotificationWithMessage:@"Recording Motion..." completion:nil];
     });
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         _statusBarNotification.notificationLabel.text = @"1 Second Remaining";
     });
     
     [self hideButtons];
-    [self hideExitButton];
     [_recorder record];
 }
 
@@ -221,9 +224,13 @@
     }
 }
 
-- (IBAction)handlePlayButton:(id)sender
-{ 
+- (void)handleVideoPlayerControllerExitButton:(id)sender
+{
+    // Add Recorder Buttons back
+    [self showButtons];
     
+    [_videoPlayerController.view removeFromSuperview];
+    [_videoPlayerController removeFromParentViewController];
 }
 
 - (void)recorder:(SCRecorder *)recorder didCompleteRecordSession:(SCRecordSession *)recordSession
@@ -253,10 +260,6 @@
                         NSURL *mergedVideoURL = (NSURL *) task.result;
                         [self prepareVideoPlayerWithVideoURL:mergedVideoURL];
                         
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                            [self hideBlurBackground];
-                        });
-                        
                         return nil;
                     }];
 
@@ -265,14 +268,14 @@
                     [self hideBlurBackground];
                 }
                 
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                     [_statusBarNotification dismissNotification];
                 });
                 return nil;
             }];
         } else {
             _statusBarNotification.notificationLabel.text = @"An error occured! Please try again.";
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                 [_statusBarNotification dismissNotification];
             });
             
