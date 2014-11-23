@@ -114,23 +114,13 @@
 
     [_recorder startRunningSession];
     
-    [[MNVideo getAllMNVideosAsOneVideo] continueWithBlock:^id(BFTask *task) {
-        if (task.error) {
-          
-            return nil;
-        }
-        
-        NSLog(@"%@", task.result);
-        
-        return nil;
-    }];
-    
     [self hideBlurBackground];
 }
 
 #pragma mark - SCRecorder Methods
 
-- (void) prepareCamera {
+- (void)prepareCamera
+{
     if (_recorder.recordSession == nil) {
         
         SCRecordSession *session = [SCRecordSession recordSession];
@@ -142,7 +132,8 @@
 
 #pragma mark - PBJVideoPlayerControllerDelegate
 
-- (void)prepareVideoPlayer {
+- (void)prepareVideoPlayerWithVideoURL:(NSURL *)videoURL
+{
     _inPlaybackMode = YES;
     
     [self showExitButton];
@@ -156,7 +147,7 @@
     _videoPlayerController.view.frame = self.view.bounds;
     
     // setup media
-    _videoPlayerController.videoPath = [_videoPath absoluteString];
+    _videoPlayerController.videoPath = [videoURL absoluteString];
     _videoPlayerController.videoFillMode = AVLayerVideoGravityResizeAspectFill;
     [_videoPlayerController setPlaybackLoops:YES];
     
@@ -188,11 +179,13 @@
 
 #pragma mark - UIButton Methods
 
-- (void) handleReverseCameraTapped:(id)sender {
+- (void) handleReverseCameraTapped:(id)sender
+{
     [_recorder switchCaptureDevices];
 }
 
-- (IBAction)handleCaptureButton:(id)sender {
+- (IBAction)handleCaptureButton:(id)sender
+{
     if (!_recorder.recordSession) {
         SCRecordSession *session = [SCRecordSession recordSession];
         session.suggestedMaxRecordDuration = CMTimeMakeWithSeconds(3, 10000);
@@ -216,7 +209,8 @@
     [_recorder record];
 }
 
-- (IBAction)handleExitButton:(id)sender {
+- (IBAction)handleExitButton:(id)sender
+{
     if (_inPlaybackMode) {
         _inPlaybackMode = NO;
         [_videoPlayerController.view removeFromSuperview];
@@ -227,7 +221,8 @@
     }
 }
 
-- (IBAction)handlePlayButton:(id)sender {
+- (IBAction)handlePlayButton:(id)sender
+{ 
     
 }
 
@@ -250,10 +245,21 @@
             [[MNVideo createMNVideoWithData:[NSData dataWithContentsOfURL:fileUrl]] continueWithBlock:^id(BFTask *task) {
                 if (!task.error) {
                     _statusBarNotification.notificationLabel.text = @"Motion Saved!";
-                    [self prepareVideoPlayer];
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                        [self hideBlurBackground];
-                    });
+                    [[MNVideo getAllMNVideosAsOneVideo] continueWithBlock:^id(BFTask *task) {
+                        if (task.error) {
+                            return nil;
+                        }
+                        
+                        NSURL *mergedVideoURL = (NSURL *) task.result;
+                        [self prepareVideoPlayerWithVideoURL:mergedVideoURL];
+                        
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                            [self hideBlurBackground];
+                        });
+                        
+                        return nil;
+                    }];
+
                 } else {
                     _statusBarNotification.notificationLabel.text = @"An error occured! Please try again.";
                     [self hideBlurBackground];
@@ -275,7 +281,8 @@
     }];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
