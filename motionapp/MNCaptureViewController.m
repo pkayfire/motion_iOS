@@ -165,6 +165,7 @@
     
     [self.previewView insertSubview:_videoPlayerController.view belowSubview:_visualEffectView];
     [_videoPlayerController didMoveToParentViewController:self];
+    [_videoPlayerController playFromBeginning];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self hideBlurBackground];
     });
