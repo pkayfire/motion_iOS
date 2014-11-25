@@ -57,7 +57,7 @@
     [self.reverseCameraButton addTarget:self action:@selector(handleReverseCameraTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     _recorder = [SCRecorder recorder];
-    _recorder.sessionPreset = AVCaptureSessionPreset640x480;
+    _recorder.sessionPreset = AVCaptureSessionPreset352x288;
     _recorder.audioEnabled = YES;
     _recorder.delegate = self;
     _recorder.autoSetVideoOrientation = NO;

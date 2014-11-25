@@ -12,6 +12,7 @@
 #import "MNCaptureViewController.h"
 
 #import "MNUser.h"
+#import "MNVideo.h"
 
 @interface AppDelegate () {
     MNUser *_currentUser;
@@ -48,21 +49,7 @@
     UIColor *motionRed = [UIColor colorWithRed:245.0/255.0f green:110.0/255.0f blue:94.0/255.0f alpha:1.0f];
     [[UIButton appearance] setTitleColor:motionRed forState:UIControlStateHighlighted];
     
-//    NSArray *familyNames = [[NSArray alloc] initWithArray:[UIFont familyNames]];
-//    
-//    NSArray *fontNames;
-//    NSInteger indFamily, indFont;
-//    for (indFamily=0; indFamily<[familyNames count]; ++indFamily)
-//    {
-//        NSLog(@"Family name: %@", [familyNames objectAtIndex:indFamily]);
-//        fontNames = [[NSArray alloc] initWithArray:
-//                     [UIFont fontNamesForFamilyName:
-//                      [familyNames objectAtIndex:indFamily]]];
-//        for (indFont=0; indFont<[fontNames count]; ++indFont)
-//        {
-//            NSLog(@"    Font name: %@", [fontNames objectAtIndex:indFont]);
-//        }
-//    }
+    [MNVideo getAllMNVideosAsOneVideo];
     
     return YES;
 }
@@ -79,6 +66,7 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [MNVideo getAllMNVideosAsOneVideo];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
