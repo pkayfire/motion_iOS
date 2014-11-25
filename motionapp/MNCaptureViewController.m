@@ -123,7 +123,7 @@
     if (_recorder.recordSession == nil) {
         
         SCRecordSession *session = [SCRecordSession recordSession];
-        session.suggestedMaxRecordDuration = CMTimeMakeWithSeconds(3, 10000);
+        session.suggestedMaxRecordDuration = CMTimeMakeWithSeconds(2, 10000);
         
         _recorder.recordSession = session;
     }
