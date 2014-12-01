@@ -51,6 +51,7 @@
     BFTaskCompletionSource *getAllMNVideosCompletionSource = [BFTaskCompletionSource taskCompletionSource];
     
     PFQuery *mnVideoQuery = [PFQuery queryWithClassName:@"MNVideo"];
+    
     [[mnVideoQuery findObjectsInBackground] continueWithBlock:^id(BFTask *task) {
         if (task.error) {
             [getAllMNVideosCompletionSource setError:task.error];

@@ -12,7 +12,7 @@
 
 @interface MNCaptureViewController : UIViewController<SCRecorderDelegate, PBJVideoPlayerControllerDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView *previewView;
+@property (weak, nonatomic) IBOutlet UIView *playbackView;
 
 @property (weak, nonatomic) IBOutlet UIButton *captureButton;
 @property (weak, nonatomic) IBOutlet UIButton *reverseCameraButton;

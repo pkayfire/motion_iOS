@@ -79,7 +79,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E3q-sg-UqA" userLabel="Capture View">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E3q-sg-UqA" userLabel="PlaybackView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bbM-Uc-tFr" userLabel="Switch Camera Button" customClass="MNUIButton">
@@ -117,7 +117,7 @@
                     <connections>
                         <outlet property="captureButton" destination="TLi-tA-S7f" id="hye-HQ-lCs"/>
                         <outlet property="exitButton" destination="MVT-Mo-6hY" id="Nme-dB-knB"/>
-                        <outlet property="previewView" destination="E3q-sg-UqA" id="HRr-2o-cOJ"/>
+                        <outlet property="playbackView" destination="E3q-sg-UqA" id="eEp-qA-hxH"/>
                         <outlet property="reverseCameraButton" destination="bbM-Uc-tFr" id="2JU-7n-rwF"/>
                     </connections>
                 </viewController>

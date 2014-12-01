@@ -55,9 +55,6 @@
     
     UIVisualEffectView *visualEffectView;
     visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-    
-    
-    
     visualEffectView.frame = self.view.bounds;
     
     [self.backgroundImageView addSubview:visualEffectView];

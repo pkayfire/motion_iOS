@@ -24,14 +24,14 @@
 
 @interface MNCaptureViewController () {
     SCRecorder *_recorder;
-    UIImage *_photo;
+    UIView *_recorderPreviewView;
     SCRecordSession *_recordSession;
     
     CWStatusBarNotification *_statusBarNotification;
     
     PBJVideoPlayerController *_videoPlayerController;
     UIButton *_videoPlayerControllerExitButton;
-    
+
     NSURL *_videoPath;
     
     BOOL _inPlaybackMode;
@@ -47,7 +47,6 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
     UIColor *motionRed = [UIColor colorWithRed:245.0/255.0f green:110.0/255.0f blue:94.0/255.0f alpha:1.0f];
-    //UIColor *motionRedLight = [UIColor colorWithRed:248.0/255.0f green:155.0/255.0f blue:144.0/255.0f alpha:1.0f];
     
     _statusBarNotification = [CWStatusBarNotification new];
     _statusBarNotification.notificationLabelBackgroundColor = motionRed;
@@ -55,8 +54,49 @@
     
     [self.reverseCameraButton setImage:[UIImage imageNamed:@"switch_camera_button_highlighted"] forState:UIControlStateHighlighted | UIControlStateSelected];
     [self.reverseCameraButton addTarget:self action:@selector(handleReverseCameraTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.reverseCameraButton setHidden:YES];
     
-    _recorder = [SCRecorder recorder];
+    _inPlaybackMode = YES;
+    
+    [[MNVideo getAllMNVideosAsOneVideo] continueWithBlock:^id(BFTask *task) {
+        if (task.error) {
+            return nil;
+        }
+        
+        NSURL *mergedVideoURL = (NSURL *) task.result;
+        [self prepareVideoPlayerWithVideoURL:mergedVideoURL];
+        
+        return nil;
+    }];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    [_recorder previewViewFrameChanged];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
+
+#pragma mark - SCRecorder Methods
+
+- (void)setUpCamera
+{
+    if (!_recorder) {
+        _recorder = [SCRecorder recorder];
+    }
     _recorder.sessionPreset = AVCaptureSessionPreset352x288;
     _recorder.audioEnabled = YES;
     _recorder.delegate = self;
@@ -65,8 +105,10 @@
     // On iOS 8 and iPhone 5S, enabling this seems to be slow
     _recorder.initializeRecordSessionLazily = NO;
     
-    UIView *previewView = self.previewView;
-    _recorder.previewView = previewView;
+    if (!_recorderPreviewView) {
+       _recorderPreviewView = [[UIView alloc] initWithFrame:self.playbackView.frame];
+    }
+    _recorder.previewView = _recorderPreviewView;
     
     [_recorder openSession:^(NSError *sessionError, NSError *audioError, NSError *videoError, NSError *photoError) {
         NSLog(@"==== Opened session ====");
@@ -78,55 +120,28 @@
         [self prepareCamera];
     }];
     
-    UIVisualEffect *blurEffect;
-    blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+//    UIVisualEffect *blurEffect;
+//    blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+//    
+//    _visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+//    _visualEffectView.frame = self.view.bounds;
+//    _visualEffectView.alpha = 1.0f;
+//    [_recorder.previewView addSubview:_visualEffectView];
     
-    _visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-    _visualEffectView.frame = self.view.bounds;
-    _visualEffectView.alpha = 1.0f;
-    [self.previewView addSubview:_visualEffectView];
-    
-    _inPlaybackMode = NO;
+    [self.reverseCameraButton setHidden:NO];
+    [self.playbackView insertSubview:_recorderPreviewView aboveSubview:_videoPlayerController.view];
 }
-
-- (BOOL)prefersStatusBarHidden { return YES; }
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
-    [self prepareCamera];
-}
-
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    
-    [_recorder previewViewFrameChanged];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    NSLog(@"MNCaptureViewController ViewDidAppear");
-
-    [_recorder startRunningSession];
-    
-    [self hideBlurBackground];
-}
-
-#pragma mark - SCRecorder Methods
 
 - (void)prepareCamera
 {
     if (_recorder.recordSession == nil) {
-        
         SCRecordSession *session = [SCRecordSession recordSession];
         session.suggestedMaxRecordDuration = CMTimeMakeWithSeconds(2, 10000);
-        
         _recorder.recordSession = session;
     }
+    [_videoPlayerController pause];
+    _inPlaybackMode = NO;
+    [_recorder startRunningSession];
 }
 
 #pragma mark - PBJVideoPlayerControllerDelegate
@@ -153,17 +168,11 @@
     NSLog(@"Max duration of the video: %f", videoPlayer.maxDuration);
     [self addChildViewController:_videoPlayerController];
     
-    // Add Exit Button to _videoPlayerController
-    if (!_videoPlayerControllerExitButton) {
-        _videoPlayerControllerExitButton = [[UIButton alloc] initWithFrame:CGRectMake(22, 27, 30, 30)];
-    }
-    [_videoPlayerControllerExitButton addTarget:self action:@selector(handleVideoPlayerControllerExitButton:) forControlEvents:UIControlEventTouchUpInside];
-    
     UIImage *exitImage = [UIImage imageNamed:@"exit_button"];
     [_videoPlayerControllerExitButton setImage:exitImage forState:UIControlStateNormal];
     [_videoPlayerController.view addSubview:_videoPlayerControllerExitButton];
     
-    [self.previewView insertSubview:_videoPlayerController.view belowSubview:_visualEffectView];
+    [self.playbackView insertSubview:_videoPlayerController.view atIndex:0];
     [_videoPlayerController didMoveToParentViewController:self];
     [_videoPlayerController playFromBeginning];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -173,7 +182,7 @@
 
 - (void)videoPlayerPlaybackStateDidChange:(PBJVideoPlayerController *)videoPlayer
 {
-    NSLog(@"playback state did change");
+    
 }
 
 - (void)videoPlayerPlaybackWillStartFromBeginning:(PBJVideoPlayerController *)videoPlayer
@@ -190,48 +199,42 @@
 
 - (void) handleReverseCameraTapped:(id)sender
 {
-    [_recorder switchCaptureDevices];
+    if (!_inPlaybackMode) {
+        [_recorder switchCaptureDevices];
+    }
 }
 
 - (IBAction)handleCaptureButton:(id)sender
 {
-    if (!_recorder.recordSession) {
-        SCRecordSession *session = [SCRecordSession recordSession];
-        session.suggestedMaxRecordDuration = CMTimeMakeWithSeconds(2, 10000);
-        _recorder.recordSession = session;
+    if (_inPlaybackMode) {
+        [self setUpCamera];
+    } else {
+        if (!_recorder.recordSession) {
+            SCRecordSession *session = [SCRecordSession recordSession];
+            session.suggestedMaxRecordDuration = CMTimeMakeWithSeconds(2, 10000);
+            _recorder.recordSession = session;
+        }
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [_statusBarNotification displayNotificationWithMessage:@"Recording Motion..." completion:nil];
+        });
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            _statusBarNotification.notificationLabel.text = @"1 Second Remaining";
+        });
+        
+        [self hideButtons];
+        [_recorder record];
     }
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [_statusBarNotification displayNotificationWithMessage:@"Recording Motion..." completion:nil];
-    });
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        _statusBarNotification.notificationLabel.text = @"1 Second Remaining";
-    });
-    
-    [self hideButtons];
-    [_recorder record];
 }
 
 - (IBAction)handleExitButton:(id)sender
 {
     if (_inPlaybackMode) {
-        _inPlaybackMode = NO;
-        [_videoPlayerController.view removeFromSuperview];
-    } else {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         MNOpeningViewController *openingVC = [sb instantiateViewControllerWithIdentifier:@"MNOpeningViewController"];
         [self presentViewController:openingVC animated:YES completion:nil];
     }
-}
-
-- (void)handleVideoPlayerControllerExitButton:(id)sender
-{
-    // Add Recorder Buttons back
-    [self showButtons];
-    
-    [_videoPlayerController.view removeFromSuperview];
-    [_videoPlayerController removeFromParentViewController];
 }
 
 - (void)recorder:(SCRecorder *)recorder didCompleteRecordSession:(SCRecordSession *)recordSession
@@ -253,20 +256,10 @@
             [[MNVideo createMNVideoWithData:[NSData dataWithContentsOfURL:fileUrl]] continueWithBlock:^id(BFTask *task) {
                 if (!task.error) {
                     _statusBarNotification.notificationLabel.text = @"Motion Saved!";
-                    [[MNVideo getAllMNVideosAsOneVideo] continueWithBlock:^id(BFTask *task) {
-                        if (task.error) {
-                            return nil;
-                        }
-                        
-                        NSURL *mergedVideoURL = (NSURL *) task.result;
-                        [self prepareVideoPlayerWithVideoURL:mergedVideoURL];
-                        
-                        return nil;
-                    }];
-
+                    [_recorderPreviewView removeFromSuperview];
+                    [_videoPlayerController playFromCurrentTime];
                 } else {
                     _statusBarNotification.notificationLabel.text = @"An error occured! Please try again.";
-                    [self hideBlurBackground];
                 }
                 
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
