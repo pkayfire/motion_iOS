@@ -381,25 +381,25 @@ typedef void (^PBJVideoPlayerBlock)();
 {
     if (_videoPath) {
         
-        switch (_playbackState) {
-            case PBJVideoPlayerPlaybackStateStopped:
-            {
-                [self playFromBeginning];
-                break;
-            }
-            case PBJVideoPlayerPlaybackStatePaused:
-            {
-                [self playFromCurrentTime];
-                break;
-            }
-            case PBJVideoPlayerPlaybackStatePlaying:
-            case PBJVideoPlayerPlaybackStateFailed:
-            default:
-            {
-                [self pause];
-                break;
-            }
-        }
+//        switch (_playbackState) {
+//            case PBJVideoPlayerPlaybackStateStopped:
+//            {
+//                [self playFromBeginning];
+//                break;
+//            }
+//            case PBJVideoPlayerPlaybackStatePaused:
+//            {
+//                [self playFromCurrentTime];
+//                break;
+//            }
+//            case PBJVideoPlayerPlaybackStatePlaying:
+//            case PBJVideoPlayerPlaybackStateFailed:
+//            default:
+//            {
+//                [self pause];
+//                break;
+//            }
+//        }
         
     } else {
         [super touchesEnded:touches withEvent:event];

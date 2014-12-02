@@ -84,11 +84,11 @@
 
 - (void)initVideoPlayer
 {
+    [_statusBarNotification displayNotificationWithMessage:@"Motioning..." completion:nil];
     [[MNVideo getAllMNVideosAsOneVideo] continueWithBlock:^id(BFTask *task) {
         if (task.error) {
             return nil;
         }
-        NSLog(@"here");
         
         NSURL *mergedVideoURL = (NSURL *) task.result;
         [self prepareVideoPlayerWithVideoURL:mergedVideoURL];
@@ -183,7 +183,6 @@
                     }
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                         [_statusBarNotification dismissNotification];
-                        [_statusBarNotification displayNotificationWithMessage:@"Reloading..." completion:nil];
                         [self initVideoPlayer];
                     });
                     
@@ -229,6 +228,7 @@
     [_videoPlayerController playFromBeginning];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self hideBlurBackground];
+        [_statusBarNotification dismissNotification];
     });
 }
 
@@ -283,6 +283,9 @@
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         MNOpeningViewController *openingVC = [sb instantiateViewControllerWithIdentifier:@"MNOpeningViewController"];
         [self presentViewController:openingVC animated:YES completion:nil];
+    } else {
+        [self cleanUpCamera];
+        [self showPlaybackButtons];
     }
 }
 
