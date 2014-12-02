@@ -13,7 +13,8 @@
 - (void)showBlurBackground;
 - (void)hideBlurBackground;
 
-- (void)showButtons;
+- (void)showPlaybackButtons;
+- (void)showCaptureButtons;
 - (void)hideButtons;
 
 @end

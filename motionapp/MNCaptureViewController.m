@@ -54,7 +54,7 @@
     
     [self.reverseCameraButton setImage:[UIImage imageNamed:@"switch_camera_button_highlighted"] forState:UIControlStateHighlighted | UIControlStateSelected];
     [self.reverseCameraButton addTarget:self action:@selector(handleReverseCameraTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [self.reverseCameraButton setHidden:YES];
+    [self.reverseCameraButton setAlpha:0.0f];
     
     _inPlaybackMode = YES;
     
@@ -87,6 +87,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    NSLog(@"viewDidAppear");
     [super viewDidAppear:animated];
 }
 
@@ -128,7 +129,6 @@
 //    _visualEffectView.alpha = 1.0f;
 //    [_recorder.previewView addSubview:_visualEffectView];
     
-    [self.reverseCameraButton setHidden:NO];
     [self.playbackView insertSubview:_recorderPreviewView aboveSubview:_videoPlayerController.view];
 }
 
@@ -142,6 +142,15 @@
     [_videoPlayerController pause];
     _inPlaybackMode = NO;
     [_recorder startRunningSession];
+    [self showCaptureButtons];
+}
+
+- (void)cleanUpCamera
+{
+    [_recorder closeSession];
+    [_recorderPreviewView removeFromSuperview];
+    _inPlaybackMode = YES;
+    [_videoPlayerController playFromCurrentTime];
 }
 
 #pragma mark - PBJVideoPlayerControllerDelegate
@@ -253,15 +262,16 @@
         if (error == nil) {
             NSURL *fileUrl = recordSession.outputUrl;
             _videoPath = fileUrl;
+            
+            [self cleanUpCamera];
+            [self showPlaybackButtons];
+            
             [[MNVideo createMNVideoWithData:[NSData dataWithContentsOfURL:fileUrl]] continueWithBlock:^id(BFTask *task) {
                 if (!task.error) {
                     _statusBarNotification.notificationLabel.text = @"Motion Saved!";
-                    [_recorderPreviewView removeFromSuperview];
-                    [_videoPlayerController playFromCurrentTime];
                 } else {
                     _statusBarNotification.notificationLabel.text = @"An error occured! Please try again.";
                 }
-                
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                     [_statusBarNotification dismissNotification];
                 });

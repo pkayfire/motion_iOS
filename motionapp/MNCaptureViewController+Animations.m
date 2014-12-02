@@ -31,15 +31,27 @@
 }
 
 
-- (void)showButtons
+- (void)showPlaybackButtons
 {
     [UIView animateWithDuration:1.0f
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          self.captureButton.alpha = 1.0f;
-                         self.reverseCameraButton.alpha = 1.0f;
                          self.exitButton.alpha = 1.0f;
+                         self.reverseCameraButton.alpha = 0.0f;
+                     } completion:nil];
+}
+
+- (void)showCaptureButtons
+{
+    [UIView animateWithDuration:1.0f
+                          delay:0.0f
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.captureButton.alpha = 1.0f;
+                         self.exitButton.alpha = 1.0f;
+                         self.reverseCameraButton.alpha = 1.0f;
                      } completion:nil];
 }
 
@@ -50,8 +62,8 @@
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          self.captureButton.alpha = 0.0f;
-                         self.reverseCameraButton.alpha = 0.0f;
                          self.exitButton.alpha = 0.0f;
+                         self.reverseCameraButton.alpha = 0.0f;
                      } completion:nil];
 }
 
