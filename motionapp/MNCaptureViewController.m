@@ -153,6 +153,44 @@
     [_videoPlayerController playFromCurrentTime];
 }
 
+#pragma mark - SCRecorder Delegate Methods
+
+- (void)recorder:(SCRecorder *)recorder didCompleteRecordSession:(SCRecordSession *)recordSession
+{
+    _recorder.recordSession = nil;
+    [recordSession endSession:^(NSError *error) {
+        if (error == nil) {
+            NSURL *fileUrl = recordSession.outputUrl;
+            _videoPath = fileUrl;
+            
+            [self cleanUpCamera];
+            [self showPlaybackButtons];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [_statusBarNotification displayNotificationWithMessage:@"Saving Motion..." completion:nil];
+                
+                [[MNVideo createMNVideoWithData:[NSData dataWithContentsOfURL:fileUrl]] continueWithBlock:^id(BFTask *task) {
+                    if (!task.error) {
+                        _statusBarNotification.notificationLabel.text = @"Motion Saved!";
+                    } else {
+                        _statusBarNotification.notificationLabel.text = @"An error occured! Please try again.";
+                    }
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                        [_statusBarNotification dismissNotification];
+                    });
+                    return nil;
+                }];
+            });
+            
+        } else {
+            _statusBarNotification.notificationLabel.text = @"An error occured! Please try again.";
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [_statusBarNotification dismissNotification];
+            });
+        }
+    }];
+}
+
 #pragma mark - PBJVideoPlayerControllerDelegate
 
 - (void)prepareVideoPlayerWithVideoURL:(NSURL *)videoURL
@@ -224,6 +262,9 @@
             _recorder.recordSession = session;
         }
         
+        [self hideButtons];
+        [_recorder record];
+        
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             [_statusBarNotification displayNotificationWithMessage:@"Recording Motion..." completion:nil];
         });
@@ -232,8 +273,9 @@
             _statusBarNotification.notificationLabel.text = @"1 Second Remaining";
         });
         
-        [self hideButtons];
-        [_recorder record];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [_statusBarNotification dismissNotification];
+        });
     }
 }
 
@@ -244,48 +286,6 @@
         MNOpeningViewController *openingVC = [sb instantiateViewControllerWithIdentifier:@"MNOpeningViewController"];
         [self presentViewController:openingVC animated:YES completion:nil];
     }
-}
-
-- (void)recorder:(SCRecorder *)recorder didCompleteRecordSession:(SCRecordSession *)recordSession
-{
-    _recorder.recordSession = nil;
-    [UIView animateWithDuration:1.0f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         _visualEffectView.alpha = 1.0f;
-                     } completion:^(BOOL finished) {
-                         _statusBarNotification.notificationLabel.text = @"Saving Motion...";
-                     }];
-    
-    [recordSession endSession:^(NSError *error) {
-        if (error == nil) {
-            NSURL *fileUrl = recordSession.outputUrl;
-            _videoPath = fileUrl;
-            
-            [self cleanUpCamera];
-            [self showPlaybackButtons];
-            
-            [[MNVideo createMNVideoWithData:[NSData dataWithContentsOfURL:fileUrl]] continueWithBlock:^id(BFTask *task) {
-                if (!task.error) {
-                    _statusBarNotification.notificationLabel.text = @"Motion Saved!";
-                } else {
-                    _statusBarNotification.notificationLabel.text = @"An error occured! Please try again.";
-                }
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                    [_statusBarNotification dismissNotification];
-                });
-                return nil;
-            }];
-        } else {
-            _statusBarNotification.notificationLabel.text = @"An error occured! Please try again.";
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                [_statusBarNotification dismissNotification];
-            });
-            
-
-        }
-    }];
 }
 
 - (void)didReceiveMemoryWarning
