@@ -20,8 +20,10 @@
 
 @property (strong, nonatomic) UIVisualEffectView *visualEffectView;
 
+- (void)initVideoPlayer;
 
 - (IBAction)handleCaptureButton:(id)sender;
 - (IBAction)handleExitButton:(id)sender;
+- (IBAction)handleSwitchCameraButton:(id)sender;
 
 @end

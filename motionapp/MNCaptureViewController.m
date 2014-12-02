@@ -52,22 +52,11 @@
     _statusBarNotification.notificationLabelBackgroundColor = motionRed;
     _statusBarNotification.notificationLabelTextColor = [UIColor whiteColor];
     
-    [self.reverseCameraButton setImage:[UIImage imageNamed:@"switch_camera_button_highlighted"] forState:UIControlStateHighlighted | UIControlStateSelected];
-    [self.reverseCameraButton addTarget:self action:@selector(handleReverseCameraTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.reverseCameraButton setAlpha:0.0f];
     
     _inPlaybackMode = YES;
     
-    [[MNVideo getAllMNVideosAsOneVideo] continueWithBlock:^id(BFTask *task) {
-        if (task.error) {
-            return nil;
-        }
-        
-        NSURL *mergedVideoURL = (NSURL *) task.result;
-        [self prepareVideoPlayerWithVideoURL:mergedVideoURL];
-        
-        return nil;
-    }];
+    [self initVideoPlayer];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -89,6 +78,23 @@
 - (void)viewDidAppear:(BOOL)animated {
     NSLog(@"viewDidAppear");
     [super viewDidAppear:animated];
+}
+
+#pragma mark - VideoPlayer Methods
+
+- (void)initVideoPlayer
+{
+    [[MNVideo getAllMNVideosAsOneVideo] continueWithBlock:^id(BFTask *task) {
+        if (task.error) {
+            return nil;
+        }
+        NSLog(@"here");
+        
+        NSURL *mergedVideoURL = (NSURL *) task.result;
+        [self prepareVideoPlayerWithVideoURL:mergedVideoURL];
+        
+        return nil;
+    }];
 }
 
 #pragma mark - SCRecorder Methods
@@ -177,7 +183,10 @@
                     }
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                         [_statusBarNotification dismissNotification];
+                        [_statusBarNotification displayNotificationWithMessage:@"Reloading..." completion:nil];
+                        [self initVideoPlayer];
                     });
+                    
                     return nil;
                 }];
             });
@@ -215,10 +224,6 @@
     NSLog(@"Max duration of the video: %f", videoPlayer.maxDuration);
     [self addChildViewController:_videoPlayerController];
     
-    UIImage *exitImage = [UIImage imageNamed:@"exit_button"];
-    [_videoPlayerControllerExitButton setImage:exitImage forState:UIControlStateNormal];
-    [_videoPlayerController.view addSubview:_videoPlayerControllerExitButton];
-    
     [self.playbackView insertSubview:_videoPlayerController.view atIndex:0];
     [_videoPlayerController didMoveToParentViewController:self];
     [_videoPlayerController playFromBeginning];
@@ -243,13 +248,6 @@
 }
 
 #pragma mark - UIButton Methods
-
-- (void) handleReverseCameraTapped:(id)sender
-{
-    if (!_inPlaybackMode) {
-        [_recorder switchCaptureDevices];
-    }
-}
 
 - (IBAction)handleCaptureButton:(id)sender
 {
@@ -285,6 +283,12 @@
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         MNOpeningViewController *openingVC = [sb instantiateViewControllerWithIdentifier:@"MNOpeningViewController"];
         [self presentViewController:openingVC animated:YES completion:nil];
+    }
+}
+
+- (IBAction)handleSwitchCameraButton:(id)sender {
+    if (!_inPlaybackMode) {
+        [_recorder switchCaptureDevices];
     }
 }
 

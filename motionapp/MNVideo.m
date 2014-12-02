@@ -51,6 +51,7 @@
     BFTaskCompletionSource *getAllMNVideosCompletionSource = [BFTaskCompletionSource taskCompletionSource];
     
     PFQuery *mnVideoQuery = [PFQuery queryWithClassName:@"MNVideo"];
+    [mnVideoQuery whereKey:@"createdAt" greaterThan:[[NSDate date] dateByAddingTimeInterval:-3.5*24*60*60]];
     
     [[mnVideoQuery findObjectsInBackground] continueWithBlock:^id(BFTask *task) {
         if (task.error) {

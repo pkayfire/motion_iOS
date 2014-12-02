@@ -87,6 +87,9 @@
                                         <state key="normal" image="switch_camera_button">
                                             <color key="titleShadowColor" red="0.96078431372549022" green="0.43137254901960786" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="handleSwitchCameraButton:" destination="YO3-vL-id9" eventType="touchUpInside" id="WSz-4N-FLR"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TLi-tA-S7f" userLabel="Capture Button">
                                         <rect key="frame" x="130" y="480" width="60" height="60"/>
