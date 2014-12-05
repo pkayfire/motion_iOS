@@ -42,6 +42,18 @@
             [createMNVideoCompletionSource setError:error];
         }
     }];
+    
+    PFQuery *installationQuery = [PFInstallation query];
+    [installationQuery whereKey:@"deviceType" equalTo:@"ios"];
+    PFPush *push = [[PFPush alloc] init];
+    [push setQuery:installationQuery];
+    NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                          @"default", @"sound",
+                          @"\xF0\x9F\x91\xAC \xF0\x9F\x91\xAD Your friend just added a new motion! \xF0\x9F\x99\x8C \xF0\x9F\x99\x8C", @"alert", nil];
+    [push setData:data];
+    [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        NSLog(@"%@", error);
+    }];
 
     return createMNVideoCompletionSource.task;
 }
@@ -52,6 +64,7 @@
     
     PFQuery *mnVideoQuery = [PFQuery queryWithClassName:@"MNVideo"];
     [mnVideoQuery whereKey:@"createdAt" greaterThan:[[NSDate date] dateByAddingTimeInterval:-3.5*24*60*60]];
+    [mnVideoQuery orderByDescending:@"createdAt"];
     
     [[mnVideoQuery findObjectsInBackground] continueWithBlock:^id(BFTask *task) {
         if (task.error) {
